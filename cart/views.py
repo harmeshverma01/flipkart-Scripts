@@ -1,14 +1,13 @@
 from .utils import product_details, html_content, get_next_page
 from rest_framework.response import Response
-from .serializers import categoryserializer
+from .serializers import Categoryserializer, Productserializer
 from rest_framework.views import APIView
 from .models import Category 
-
 
 # Create your views here.
 
 class ProductView(APIView):
-    serializer_class = categoryserializer
+    serializer_class = Categoryserializer
   
     def post(self, request, ):
         try:
@@ -33,6 +32,8 @@ class ProductView(APIView):
                     break
                 soup = html_content(url)
             
-                serializer = self.serializer_class(product)
+                serializer = Productserializer(product)
+                if serializer.is_valid():
+                    serializer.save()
                 return Response(serializer.data)
                 
