@@ -1,0 +1,4 @@
+django
+djangorestframework
+beautisoup4
+requests

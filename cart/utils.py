@@ -1,6 +1,5 @@
-import requests
 from bs4 import BeautifulSoup
-
+import requests
 
 def product_details(divs, list_of_product):
     for div in divs:
