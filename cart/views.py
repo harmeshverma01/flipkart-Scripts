@@ -3,7 +3,7 @@ from .serializers import Categoryserializer, Productserializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Category, Product
-
+import json
 # Create your views here.
 
 class ProductView(APIView):
@@ -12,11 +12,11 @@ class ProductView(APIView):
   
     def get(self, request, id=None):
         product = Product.objects.all()
-        category = request.GET.get('category', None)
         rating = request.GET.get('rating', None)
-        if category is not None or rating is not None:
-            product = product.filter(category=category, rating=rating)
-        serializer = self.serializer_class(product, many=True)
+        category = request.GET.get('category', None)
+        if rating is not None and category is not None:
+            product = product.filter(rating=rating, category=category)
+        serializer = Productserializer(product, many=True)
         return Response(serializer.data)
   
   
@@ -30,21 +30,19 @@ class ProductView(APIView):
             )
             category.save()
             
-        url = "https://www.flipkart.com/search?q="+ name    
-
+        url = "https://www.flipkart.com/search?q="+ name
+       
         soup = html_content(url)
-
+    
         while True:
             divs = soup.find_all("div",{"class": "_2kHMtA"})
             list_of_product = product_details(divs, list_of_product=[])
-            for product in list_of_product:    
-                url = get_next_page(url)
-                if not url:
-                    break
+            for product in list_of_product:
+                product['category'] = category
                 soup = html_content(url)
-                
+                print(product)
                 serializer = Productserializer(data=product)
                 if serializer.is_valid():
                     serializer.save()
-                return Response(serializer.data)
-                
+            return Response(serializer.data)
+            
