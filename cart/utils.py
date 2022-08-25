@@ -39,5 +39,4 @@ def get_next_page(url):
     else:
         return
     
-
     
