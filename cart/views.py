@@ -1,6 +1,6 @@
 from .utils import product_details, html_content, get_next_page
-from rest_framework.response import Response
 from .serializers import Categoryserializer, Productserializer
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Category 
 
@@ -32,7 +32,7 @@ class ProductView(APIView):
                     break
                 soup = html_content(url)
             
-                serializer = Productserializer(product)
+                serializer = Productserializer(data=product)
                 if serializer.is_valid():
                     serializer.save()
                 return Response(serializer.data)

@@ -9,13 +9,13 @@ def product_details(divs, list_of_product):
             product_rating
         else:
             return None    
-        product_discription = div.find('div',{"class" : "fMghEO"})
+        product_descriptions = div.find('div',{"class" : "fMghEO"})
         product_price = div.find('div', {"class":"nlI3QM"})
         
         product = {
             'name' : product_name.text,
             'rating' : product_rating.text,
-            'discription' : product_discription.text,
+            'descriptions' : product_descriptions.text,
             'price' : product_price.text,
         }
         list_of_product.append(product)
