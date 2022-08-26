@@ -1,4 +1,4 @@
-from .utils import product_details, html_content, get_next_page
+from cart.utils import product_details, html_content, get_next_page
 from .serializers import Categoryserializer, Productserializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -42,7 +42,8 @@ class ProductView(APIView):
                 soup = html_content(url)
                 print(product)
                 serializer = Productserializer(data=product)
-                if serializer.is_valid():
-                    serializer.save()
-            return Response(serializer.data)
+                if not serializer.is_valid():
+                    return Response(serializer.errors)
+                serializer.save()
+            return Response({"details": "fetched"})
             
