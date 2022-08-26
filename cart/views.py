@@ -3,7 +3,6 @@ from .serializers import Categoryserializer, Productserializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Category, Product
-import json
 # Create your views here.
 
 class ProductView(APIView):
@@ -13,9 +12,11 @@ class ProductView(APIView):
     def get(self, request, id=None):
         product = Product.objects.all()
         rating = request.GET.get('rating', None)
+        if rating is not None:
+            product = product.filter(rating=rating)
         category = request.GET.get('category', None)
-        if rating is not None and category is not None:
-            product = product.filter(rating=rating, category=category)
+        if category is not None:
+            product = product.filter(category=category)    
         serializer = Productserializer(product, many=True)
         return Response(serializer.data)
   
