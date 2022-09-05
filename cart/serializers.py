@@ -9,10 +9,10 @@ class Categoryserializer(serializers.ModelSerializer):
         
         
 class Productserializer(serializers.ModelSerializer):
-    Category = serializers.SerializerMethodField()
+    # Category = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ['name', 'descriptions', 'rating', 'price', 'Category']
+        fields = ['name', 'price', 'rating', 'descriptions', 'category']
         
         def get_category(self,obj):
             objects = obj.name
