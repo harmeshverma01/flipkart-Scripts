@@ -9,11 +9,11 @@ class Categoryserializer(serializers.ModelSerializer):
         
         
 class Productserializer(serializers.ModelSerializer):
+    # Category = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ['name', 'descriptions', 'rating', 'price', 'category']
+        fields = ['name', 'price', 'rating', 'descriptions', 'category']
         
-        
-        # def get_category(self,obj):
-        #     objects = obj.category.all()
-        #     return Categoryserializer(objects, many=True).data        
+        def get_category(self,obj):
+            objects = obj.name
+            return objects      
